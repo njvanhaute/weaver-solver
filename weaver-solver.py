@@ -1,6 +1,5 @@
 import argparse
 import collections
-import re
 
 DEFAULT_WORDS_FILE_PATH = '/usr/share/dict/words'
 
