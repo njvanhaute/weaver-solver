@@ -61,11 +61,15 @@ def solve(start_word, end_word, words_file_path):
             
     return solution
 
-def main():
+def build_parser():
     parser = argparse.ArgumentParser(description='Solve a Weaver puzzle.')
     parser.add_argument('start_word', type=str)
     parser.add_argument('end_word', type=str)
     parser.add_argument('--w', help='Alternate words file', default=DEFAULT_WORDS_FILE_PATH, type=str, required=False)
+    return parser
+
+def main():
+    parser = build_parser()
     args = vars(parser.parse_args())
     start_word = args['start_word']
     end_word = args['end_word']
