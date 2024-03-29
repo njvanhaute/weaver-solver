@@ -27,7 +27,7 @@ def english_words(words_file_path):
 
 def adjacent_words(word, valid_words):
     words = set()
-    for i in range(0, len(word)):
+    for i in range(len(word)):
         for c in 'abcdefghijklmnopqrstuvwxyz':
             new_word = word[:i] + c + word[i+1:]
             if new_word != word and new_word in valid_words:
