@@ -35,7 +35,12 @@ def adjacent_words(word, valid_words):
     return words
 
 def solve(start_word, end_word, words_file_path):
+    solution = WeaverSolution()
     valid_words = english_words(words_file_path)
+
+    if start_word not in valid_words or end_word not in valid_words:
+        return solution
+    
     q = collections.deque([start_word])
     visited = set(start_word)
     parents = {}
@@ -46,8 +51,6 @@ def solve(start_word, end_word, words_file_path):
                 visited.add(adj_word)
                 parents[adj_word] = word
                 q.appendleft(adj_word)
-    
-    solution = WeaverSolution()
 
     if end_word in visited:
         solution.add_step(end_word)
