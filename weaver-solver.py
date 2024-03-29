@@ -9,6 +9,7 @@ class WeaverSolution:
         self.steps = []
 
     def __repr__(self):
+        if len(self.steps) == 0: return "No solution found"
         rep = ''
         for i in range(len(self.steps) - 1, 0, -1):
             rep += f'{self.steps[i]} -> '
@@ -47,20 +48,28 @@ def solve(start_word, end_word):
                 q.appendleft(adj_word)
     
     solution = WeaverSolution()
-    solution.add_step(end_word)
-    curr_word = end_word
-    while curr_word != start_word:
-        curr_word = parents[curr_word]
-        solution.add_step(curr_word)
 
+    if end_word in visited:
+        solution.add_step(end_word)
+        curr_word = end_word
+        while curr_word != start_word:
+            curr_word = parents[curr_word]
+            solution.add_step(curr_word)
+            
     return solution
 
 def main():
     parser = argparse.ArgumentParser(description='Solve a Weaver puzzle.')
     parser.add_argument('start_word', type=str)
     parser.add_argument('end_word', type=str)
-    args = parser.parse_args()
-    print(solve(**vars(args)))
+    args = vars(parser.parse_args())
+    start_word = args['start_word']
+    end_word = args['end_word']
+    
+    if len(start_word) != len(end_word):
+        parser.error('start_word and end_word must be of equal length')
+    else:
+        print(solve(start_word, end_word))
 
 if __name__ == '__main__':
     main()
