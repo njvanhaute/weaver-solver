@@ -8,11 +8,12 @@ class WeaverSolution:
         self.steps = []
 
     def __repr__(self):
-        if len(self.steps) == 0: return "No solution found"
+        if len(self.steps) == 0: return 'No solution found'
         rep = ''
-        for i in range(len(self.steps) - 1, 0, -1):
-            rep += f'{self.steps[i]} -> '
-        rep += self.steps[0]
+        for step in reversed(self.steps):
+            rep += step
+            if step != self.steps[0]:
+                rep += ' -> '
         return rep
 
     def add_step(self, word):
@@ -52,11 +53,11 @@ def solve(start_word, end_word, words_file_path):
                 q.appendleft(adj_word)
 
     if end_word in visited:
-        solution.add_step(end_word)
         curr_word = end_word
         while curr_word != start_word:
-            curr_word = parents[curr_word]
             solution.add_step(curr_word)
+            curr_word = parents[curr_word]
+        solution.add_step(start_word)
             
     return solution
 
@@ -76,6 +77,8 @@ def main():
     
     if len(start_word) != len(end_word):
         parser.error('start_word and end_word must be of equal length')
+    elif start_word == end_word:
+        parser.error('start_word and end_word must be different')
     else:
         print(solve(start_word, end_word, words_file_path))
 
