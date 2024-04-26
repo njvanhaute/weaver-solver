@@ -1,8 +1,6 @@
 import argparse
 import collections
 
-DEFAULT_WORDS_FILE_PATH = '/usr/share/dict/words'
-
 class WeaverSolution:
     def __init__(self):
         self.steps = []
@@ -19,11 +17,12 @@ class WeaverSolution:
     def add_step(self, word):
         self.steps.append(word)
 
+class EmptySolution(WeaverSolution):
+    pass
+
 def english_words(words_file_path):
-    words = None
     with open(words_file_path) as words_file:
-        words = set(words_file.read().split())
-    return words
+        return set(words_file.read().split())
 
 def adjacent_words(word, valid_words):
     words = set()
@@ -35,12 +34,12 @@ def adjacent_words(word, valid_words):
     return words
 
 def solve(start_word, end_word, words_file_path):
-    solution = WeaverSolution()
     valid_words = english_words(words_file_path)
 
     if start_word not in valid_words or end_word not in valid_words:
-        return solution
+        return EmptySolution()
     
+    solution = WeaverSolution()
     q = collections.deque([start_word])
     visited = set(start_word)
     parents = {}
@@ -65,7 +64,7 @@ def build_parser():
     parser = argparse.ArgumentParser(description='Solve a Weaver puzzle.')
     parser.add_argument('start_word', type=str)
     parser.add_argument('end_word', type=str)
-    parser.add_argument('--w', help='Alternate words file', default=DEFAULT_WORDS_FILE_PATH, type=str, required=False)
+    parser.add_argument('--w', help='Alternate words file', default='weaver_words', type=str, required=False)
     return parser
 
 def main():
