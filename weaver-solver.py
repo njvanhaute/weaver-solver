@@ -17,8 +17,12 @@ class WeaverSolution:
     def add_step(self, word):
         self.steps.append(word)
 
-class EmptySolution(WeaverSolution):
-    pass
+class InvalidInput(WeaverSolution):
+    def __init__(self, word):
+        self.word = word
+
+    def __repr__(self):
+        return f'{self.word} is not in the word list'
 
 def english_words(words_file_path):
     with open(words_file_path) as words_file:
@@ -36,8 +40,11 @@ def adjacent_words(word, valid_words):
 def solve(start_word, end_word, words_file_path):
     valid_words = english_words(words_file_path)
 
-    if start_word not in valid_words or end_word not in valid_words:
-        return EmptySolution()
+    if start_word not in valid_words:
+        return InvalidInput(start_word)
+    
+    if end_word not in valid_words:
+        return InvalidInput(end_word)
     
     solution = WeaverSolution()
     q = collections.deque([start_word])
