@@ -76,17 +76,14 @@ def build_parser():
 
 def main():
     parser = build_parser()
-    args = vars(parser.parse_args())
-    start_word = args['start_word']
-    end_word = args['end_word']
-    words_file_path = args['w']
+    args = parser.parse_args()
     
-    if len(start_word) != len(end_word):
+    if len(args.start_word) != len(args.end_word):
         parser.error('start_word and end_word must be of equal length')
-    elif start_word == end_word:
+    elif args.start_word == args.end_word:
         parser.error('start_word and end_word must be different')
     else:
-        print(solve(start_word, end_word, words_file_path))
+        print(solve(args.start_word, args.end_word, args.w))
 
 if __name__ == '__main__':
     main()
