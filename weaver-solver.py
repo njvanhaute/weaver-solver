@@ -46,10 +46,10 @@ def solve(start_word, end_word, words_file_path):
     if end_word not in valid_words:
         return InvalidInput(end_word)
     
-    solution = WeaverSolution()
     q = collections.deque([start_word])
     visited = set(start_word)
     parents = {}
+    
     while q and end_word not in visited:
         word = q.pop()
         for adj_word in adjacent_words(word, valid_words):
@@ -58,6 +58,7 @@ def solve(start_word, end_word, words_file_path):
                 parents[adj_word] = word
                 q.appendleft(adj_word)
 
+    solution = WeaverSolution()
     if end_word in visited:
         curr_word = end_word
         while curr_word != start_word:
